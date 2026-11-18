@@ -14,6 +14,5 @@ matplotlib
 seaborn
 joblib
 reportlab
-spacy 
-feedparser 
+feedparser
 httpx
