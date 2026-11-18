@@ -147,7 +147,25 @@ def save_history_snapshot(
 
     snapshot_id = str(uuid4())
 
+    # Preserve per-entity simulation risk provenance.
+    # These are scenario states, NOT independently verified
+    # operational risk measurements.
+    delay_by_id = {
+        item["node_id"]: item["predicted_delay_days"]
+        for item in (delay or {}).get("results", [])
+    }
+    risk_states = [
+        {
+            "node_id": item["node_id"],
+            "status": item["predicted_status"],
+            "delay_days": delay_by_id.get(item["node_id"], 0.0),
+            "is_source": item["node_id"] == confirmed_source,
+        }
+        for item in prediction["results"]
+    ]
+
     params = {
+        "risk_states": risk_states,
         "incident_id": incident_id,
         "snapshot_id": snapshot_id,
         "source_node_id": confirmed_source,
@@ -198,12 +216,39 @@ def save_history_snapshot(
 
     CREATE (i)-[:HAS_SNAPSHOT]->(s)
 
+    WITH i, s
+    UNWIND $risk_states AS item
+    MATCH (e:Entity {node_id: item.node_id})
+    WHERE e.data_origin = 'SYNTHETIC'
+
+    CREATE (state:IncidentRiskState {
+        state_id: $snapshot_id + ':' + item.node_id,
+        incident_id: $incident_id,
+        snapshot_id: $snapshot_id,
+        node_id: item.node_id,
+        predicted_status: item.status,
+        predicted_delay_days: item.delay_days,
+        is_disruption_source: item.is_source,
+        data_origin: 'SYNTHETIC_SIMULATION',
+        created_at: datetime()
+    })
+    CREATE (s)-[:HAS_RISK_STATE]->(state)
+    CREATE (state)-[:FOR_ENTITY]->(e)
+
+    SET e.latest_simulated_status = item.status,
+        e.latest_simulated_delay_days = item.delay_days,
+        e.latest_simulation_incident_id = $incident_id,
+        e.latest_simulation_snapshot_id = $snapshot_id,
+        e.latest_simulation_at = datetime()
+
+    WITH i, s, count(state) AS risk_state_count
     RETURN
         s.snapshot_id AS snapshot_id,
         toString(s.created_at) AS created_at,
         i.incident_id AS incident_id,
         s.model_name AS model_name,
-        s.data_origin AS data_origin
+        s.data_origin AS data_origin,
+        risk_state_count
     """
 
     driver = get_driver()
