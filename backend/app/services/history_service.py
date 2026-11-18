@@ -199,6 +199,12 @@ def save_history_snapshot(
               })
       }
 
+    MATCH (e:Entity)
+    WHERE e.node_id IN [item IN $risk_states | item.node_id]
+      AND e.data_origin = 'SYNTHETIC'
+    WITH i, collect(DISTINCT e.node_id) AS verified_node_ids
+    WHERE size(verified_node_ids) = size($risk_states)
+
     CREATE (s:ImpactSnapshot {
         snapshot_id: $snapshot_id,
         source_node_id: $source_node_id,
