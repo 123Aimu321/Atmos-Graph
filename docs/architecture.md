@@ -44,7 +44,7 @@ Entity `latest_simulated_*` properties represent the *most recently saved hypoth
 
 * FastAPI REST routes for ingestion, confirmation, graph, prediction, delay, forecasts, history, graph explorer, and risk states.
 * WebSocket `/ws/incidents` sends incident notifications and confirmed `impact.prediction.updated` payloads.
-* React dashboard uses React Flow for colored risk overlays, node details, zoom/pan, and progressive bounded exploration.
+* React dashboard uses React Flow for colored risk overlays, node details, zoom/pan, and progressive bounded exploration (standard 300 nodes, optional review mode up to 1,200 nodes).
 * Timeline selector presents 30/60/90-day residual delays; not a learned temporal model.
 
 ## Evidence and limitations
