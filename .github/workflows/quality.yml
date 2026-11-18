@@ -13,6 +13,8 @@ jobs:
           python-version: "3.11"
       - name: Compile Python source without external services
         run: python -m compileall -q backend ml tests
+      - name: Unit test validated GNN snapshot contracts
+        run: python -m unittest discover -s tests -p 'test_snapshot_contract_unit.py' -v
   frontend-build:
     runs-on: ubuntu-latest
     defaults:
