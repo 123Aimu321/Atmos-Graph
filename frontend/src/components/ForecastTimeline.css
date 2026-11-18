@@ -167,3 +167,19 @@
     flex-wrap: wrap;
   }
 }
+
+/* Infotact Week 4: keyboard-accessible 30/60/90 timeline slider */
+.forecast-slider-control {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 18px 0 16px;
+  padding: 13px 18px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background: #142339;
+  color: #e2e8f0;
+}
+.forecast-slider-control label { font-size: 13px; font-weight: 600; }
+.forecast-slider-control input[type="range"] { width: 100%; accent-color: #38bdf8; cursor: pointer; }
+.forecast-slider-ticks { display: flex; justify-content: space-between; font-size: 11px; color: #94a3b8; }
