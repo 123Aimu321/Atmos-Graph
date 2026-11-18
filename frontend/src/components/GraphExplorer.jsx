@@ -594,7 +594,7 @@ function GraphExplorerContent() {
           null,
           incoming,
           nodeLimit,
-          MAX_VISIBLE_EDGES
+          edgeLimit
         );
 
         replaceGraph(merged);
