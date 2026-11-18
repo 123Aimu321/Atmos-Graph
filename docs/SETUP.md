@@ -76,3 +76,14 @@ For newly saved snapshots, `entity_states` should equal 25.
 ## Deployment limitations
 
 The included GitHub CI checks Python syntax and the frontend production build. It cannot prove that the GNN trains successfully, that a database is running, or that multi-client WebSockets work. Confirm these separately in an isolated test environment.
+
+## Optional Docker Compose development stack
+
+This is for a local developer demo only. Prepare `datasets/processed`, `ml/models`, and `ml/saved_model` checkpoints on the host before starting containers; these paths are mounted into the backend service.
+
+    docker compose build
+    docker compose up
+
+The Compose file launches Neo4j, FastAPI, and the Vite development server. Set the Neo4j password in your untracked `.env` file. The Neo4j service uses its own persistent Docker volume and is initially **empty**; import the synthetic graph into that database using the described import script before expecting `/api/graph` to return 25 nodes.
+
+The Compose configuration is not hardened for public deployment. It is intentionally limited to the reviewer/developer demonstration workflow and should not expose passwords or private Neo4j data.
