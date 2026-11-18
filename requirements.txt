@@ -1,0 +1,20 @@
+neo4j python-dotenv
+fastapi
+uvicorn[standard]
+pandas
+numpy
+scikit-learn
+neo4j
+python-dotenv
+pydantic
+spacy
+transformers
+torch
+torch-geometric
+matplotlib
+seaborn
+joblib
+reportlab
+spacy 
+feedparser 
+httpx

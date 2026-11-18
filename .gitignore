@@ -1,0 +1,58 @@
+@'
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node.js
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+.vite/
+
+# Environment variables and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.sqlite3
+
+# Large raw and generated datasets
+datasets/raw/
+datasets/processed/
+datasets/benchmark/
+
+# Generated reports
+reports/testing/
+
+# Machine learning artifacts
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.joblib
+
+# Local database files
+*.db
+*.db-shm
+*.db-wal
+'@ | Add-Content .gitignore

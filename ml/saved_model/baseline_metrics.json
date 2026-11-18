@@ -1,0 +1,67 @@
+{
+    "model": "RandomForestClassifier",
+    "accuracy": 0.928,
+    "macro_f1": 0.9418181818181818,
+    "weighted_f1": 0.9293090909090909,
+    "training_scenarios": [
+        "SCN_MFG_002",
+        "SCN_MFG_003",
+        "SCN_MFG_004",
+        "SCN_PORT_001",
+        "SCN_PORT_002",
+        "SCN_PORT_003",
+        "SCN_RET_001",
+        "SCN_RET_003",
+        "SCN_RET_004",
+        "SCN_RET_006",
+        "SCN_RET_007",
+        "SCN_RET_008",
+        "SCN_SUP_001",
+        "SCN_SUP_003",
+        "SCN_SUP_004",
+        "SCN_SUP_005",
+        "SCN_WH_001",
+        "SCN_WH_002",
+        "SCN_WH_003",
+        "SCN_WH_005"
+    ],
+    "testing_scenarios": [
+        "SCN_MFG_001",
+        "SCN_RET_002",
+        "SCN_RET_005",
+        "SCN_SUP_002",
+        "SCN_WH_004"
+    ],
+    "feature_columns": [
+        "in_degree",
+        "out_degree",
+        "total_degree",
+        "is_disrupted_entity",
+        "node_type",
+        "region",
+        "disruption_type"
+    ],
+    "class_names": [
+        "NORMAL",
+        "AFFECTED",
+        "DISRUPTED"
+    ],
+    "confusion_matrix": [
+        [
+            78,
+            7,
+            0
+        ],
+        [
+            2,
+            33,
+            0
+        ],
+        [
+            0,
+            0,
+            5
+        ]
+    ],
+    "data_origin": "SYNTHETIC_SIMULATION"
+}

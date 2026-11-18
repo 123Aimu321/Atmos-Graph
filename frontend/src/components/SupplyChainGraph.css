@@ -1,0 +1,135 @@
+
+.sc-graph-container {
+  width: 100%;
+  height: 680px;
+  min-height: 480px;
+  background: #080f1c;
+  border: 1px solid #26354a;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sc-entity-node {
+  width: 210px;
+  min-height: 86px;
+  padding: 12px 14px;
+  background: #142136;
+  border: 1.5px solid var(--type-color);
+  border-left: 4px solid var(--status-color);
+  border-radius: 10px;
+  color: #e5edf8;
+  box-sizing: border-box;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sc-entity-node:hover {
+  background: #1b2b43;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.sc-node-selected {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+.sc-status-disrupted {
+  background: #351d2a;
+  border-color: #ef4444;
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.18);
+}
+
+.sc-status-affected {
+  background: #332b1e;
+  border-color: #f59e0b;
+}
+
+.sc-node-path {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+.sc-node-top,
+.sc-node-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sc-node-type {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--type-color);
+  letter-spacing: 0.6px;
+}
+
+.sc-node-status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--status-color);
+  box-shadow: 0 0 8px var(--status-color);
+  flex-shrink: 0;
+}
+
+.sc-node-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.sc-node-bottom {
+  font-size: 10px;
+  color: #9caec5;
+}
+
+.sc-handle {
+  width: 7px !important;
+  height: 7px !important;
+  background: #64748b !important;
+  border: 1px solid #0f172a !important;
+}
+
+.sc-graph-container .react-flow__controls {
+  background: #152237;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sc-graph-container .react-flow__controls-button {
+  background: #152237;
+  color: #e2e8f0;
+  border-bottom: 1px solid #334155;
+  fill: #e2e8f0;
+}
+
+.sc-graph-container .react-flow__controls-button svg {
+  fill: currentColor;
+}
+
+.sc-graph-container .react-flow__minimap {
+  background: #101827;
+  border: 1px solid #334155;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .sc-graph-container {
+    height: 520px;
+  }
+}
+
+.sc-delay-label {
+  display: block;
+  margin: 5px 0;
+  color: #fbbf24;
+  font-size: 11px;
+  font-weight: 600;
+}
