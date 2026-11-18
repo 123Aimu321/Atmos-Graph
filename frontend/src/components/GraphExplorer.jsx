@@ -709,7 +709,7 @@ function GraphExplorerContent() {
         graphRef.current,
         incoming,
         nodeLimit,
-        MAX_VISIBLE_EDGES
+        edgeLimit
       );
 
       replaceGraph(merged);
