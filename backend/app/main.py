@@ -20,6 +20,7 @@ from backend.app.routes.forecast import router as forecast_router
 from backend.app.routes.realtime import (
     router as realtime_router,
 )
+from backend.app.routes.impact_states import router as impact_states_router
 from backend.app.routes.history import (
     router as history_router,
 )
@@ -61,6 +62,7 @@ app.include_router(delay_router)
 app.include_router(forecast_router)
 app.include_router(realtime_router)
 app.include_router(history_router)
+app.include_router(impact_states_router)
 app.include_router(explorer_router)
 
 @app.get("/")

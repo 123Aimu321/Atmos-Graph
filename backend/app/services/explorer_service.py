@@ -6,8 +6,8 @@ from backend.app.database.neo4j_connection import (
 )
 
 
-MAX_NODES = 300
-MAX_RELATIONSHIPS = 1000
+MAX_NODES = 1500
+MAX_RELATIONSHIPS = 6000
 
 
 def database_name():
@@ -203,6 +203,9 @@ def get_neighborhood(
                 cypher = f"""
                 MATCH {pattern}
                 WHERE a.node_id IN $frontier
+                  AND coalesce(a.data_origin, 'UNSPECIFIED') = $origin
+                  AND coalesce(b.data_origin, 'UNSPECIFIED') = $origin
+                  AND NOT (b.node_id IN $discovered)
                 RETURN DISTINCT
                     b.node_id AS id,
                     coalesce(
@@ -222,6 +225,8 @@ def get_neighborhood(
                     tx.run(
                         cypher,
                         frontier=frontier,
+                        discovered=list(discovered),
+                        origin=source["data_origin"] or "UNSPECIFIED",
                         limit=remaining + 1,
                     )
                 )
@@ -267,6 +272,8 @@ def get_neighborhood(
                           (b:Entity)
                     WHERE a.node_id IN $ids
                       AND b.node_id IN $ids
+                      AND coalesce(a.data_origin, 'UNSPECIFIED') = $origin
+                      AND coalesce(b.data_origin, 'UNSPECIFIED') = $origin
                     RETURN
                         a.node_id AS source,
                         b.node_id AS target,
@@ -280,6 +287,7 @@ def get_neighborhood(
                     LIMIT $limit
                     """,
                     ids=ids,
+                    origin=source["data_origin"] or "UNSPECIFIED",
                     limit=max_relationships + 1,
                 )
             )

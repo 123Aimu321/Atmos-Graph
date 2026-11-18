@@ -88,6 +88,28 @@ export default function ForecastTimeline({
 
       {forecast && !loading && (
         <>
+          <div className="forecast-slider-control">
+            <label htmlFor="forecast-horizon-slider">
+              Recovery scenario: Day {selectedHorizon}
+            </label>
+            <input
+              id="forecast-horizon-slider"
+              type="range"
+              min="30"
+              max="90"
+              step="30"
+              value={selectedHorizon}
+              onChange={(event) =>
+                setSelectedHorizon(Number(event.target.value))
+              }
+              aria-label="Forecast scenario day"
+            />
+            <div className="forecast-slider-ticks">
+              <span>30 days</span>
+              <span>60 days</span>
+              <span>90 days</span>
+            </div>
+          </div>
           <div className="forecast-tabs">
             {HORIZONS.map((horizon) => (
               <button

@@ -1,0 +1,42 @@
+# Optional developer-only setup. Not hardened for production.
+# Run Python preprocessing/training first, so model checkpoints and
+# processed datasets exist on the host and can be mounted below.
+services:
+  neo4j:
+    image: neo4j:5.26
+    environment:
+      NEO4J_AUTH: "neo4j/${NEO4J_PASSWORD:?Set NEO4J_PASSWORD in .env}"
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+
+  backend:
+    build: .
+    environment:
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: neo4j
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:?Set NEO4J_PASSWORD in .env}
+      NEO4J_DATABASE: neo4j
+    ports:
+      - "8000:8000"
+    depends_on:
+      - neo4j
+    volumes:
+      - ./datasets/processed:/app/datasets/processed:ro
+      - ./ml/models:/app/ml/models:ro
+      - ./ml/saved_model:/app/ml/saved_model:ro
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_URL: http://127.0.0.1:8000
+      VITE_WS_URL: ws://127.0.0.1:8000/ws/incidents
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  neo4j_data:

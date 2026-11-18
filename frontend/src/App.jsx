@@ -233,6 +233,44 @@ export default function App() {
     lastEvent: lastSocketEvent,
   } = useIncidentSocket(handleLiveIncidentEvent);
 
+  // Apply the latest CONFIRMED incident simulation in every
+  // connected tab. WebSocket data originates from the validated
+  // snapshot-saving route. Unconfirmed news only refreshes the
+  // incident monitor; it does not trigger a prediction.
+  useEffect(() => {
+    if (
+      lastSocketEvent?.type !== "impact.prediction.updated"
+    ) {
+      return;
+    }
+
+    const data = lastSocketEvent.data || {};
+    if (
+      data.data_origin !== "SYNTHETIC_SIMULATION" ||
+      !data.prediction ||
+      !data.source_node_id
+    ) {
+      return;
+    }
+
+    // Supersede any stale in-flight local computation so it
+    // cannot overwrite the received confirmed scenario.
+    requestId.current += 1;
+    setPredicting(false);
+    setSelectedNode(data.source_node_id);
+    setPrediction(data.prediction);
+    setDelay(data.delay || null);
+    setForecast(data.forecast || null);
+    setRipple(data.ripple || null);
+    setRisk(data.risk || null);
+    setActiveIncident({
+      incident_id: data.incident_id,
+      title: "Confirmed disruption (live update)",
+      disruption_type: "OTHER",
+    });
+    setHistoryRefreshToken((value) => value + 1);
+  }, [lastSocketEvent]);
+
 
   // =================================================
   // LOAD DASHBOARD

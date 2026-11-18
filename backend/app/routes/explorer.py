@@ -56,11 +56,11 @@ async def search_graph_entities(
 async def explore_neighborhood(
     node_id: str,
     depth: int = Query(2, ge=1, le=4),
-    max_nodes: int = Query(150, ge=1, le=300),
+    max_nodes: int = Query(150, ge=1, le=1500),
     max_relationships: int = Query(
         500,
         ge=1,
-        le=1000,
+        le=6000,
     ),
     direction: str = Query(
         "downstream",

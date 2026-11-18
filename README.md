@@ -12,6 +12,22 @@ The platform provides interactive network visualization, disruption classificati
 
 ---
 
+## 📋 Infotact project specification
+
+This implementation follows **Infotact Project 2 — AtmoGraph: Supply Chain Ripple Effect Predictor** (Week 1–4: Neo4j foundations, spaCy ingestion, GraphSAGE delay regression, React Flow risk overlays, WebSocket updates, and a 30/60/90-day slider).
+
+- [Requirement-by-requirement implementation matrix](docs/INFOTACT_REQUIREMENTS_MATRIX.md)
+- [Setup and model-training instructions](docs/SETUP.md)
+- [Architecture and risk-state schema](docs/architecture.md)
+- [API specification](docs/API_documentation.md)
+- [Testing and final-review evidence plan](docs/TEST_PLAN.md)
+
+**Important limits:** Predictions are trained on a **25-node synthetic graph**. The 5,000-node network is a **separate benchmark**; its optional 1,200-node browser mode still needs measured performance evidence. Live news is screened and **human-confirmed** before the system saves a simulated impact. The 30/60/90-day outputs describe recovery scenarios, **not validated predictions of actual three-month delays**.
+
+To reproduce the excluded training datasets and model checkpoints, follow [SETUP.md](docs/SETUP.md) after cloning.
+
+---
+
 ## 📌 Project Overview
 
 Modern supply chains are highly interconnected. A disruption affecting a port, manufacturer, supplier, or warehouse can influence multiple downstream businesses.
@@ -330,7 +346,7 @@ Example:
 
 ```env
 NEO4J_URI=bolt://localhost:7687
-NEO4J_USER=neo4j
+NEO4J_USERNAME=neo4j
 NEO4J_PASSWORD=YOUR_NEO4J_PASSWORD
 NEO4J_DATABASE=neo4j
 ```
