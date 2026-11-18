@@ -205,7 +205,7 @@ def get_neighborhood(
                 WHERE a.node_id IN $frontier
                   AND coalesce(a.data_origin, 'UNSPECIFIED') = $origin
                   AND coalesce(b.data_origin, 'UNSPECIFIED') = $origin
-                  AND NOT b.node_id IN $discovered
+                  AND NOT (b.node_id IN $discovered)
                 RETURN DISTINCT
                     b.node_id AS id,
                     coalesce(
