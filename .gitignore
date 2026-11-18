@@ -54,3 +54,9 @@ reports/testing/
 *.db
 *.db-shm
 *.db-wal
+
+# Testing/temporary artifacts
+.coverage
+htmlcov/
+playwright-report/
+test-results/
