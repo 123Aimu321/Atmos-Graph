@@ -458,6 +458,13 @@ function GraphExplorerContent() {
   const [initialDepth, setInitialDepth] =
     useState(2);
 
+  // 1,200-node mode is opt-in for the review's
+  // large-graph rendering acceptance test.
+  const [largeGraphMode, setLargeGraphMode] =
+    useState(false);
+  const nodeLimit = largeGraphMode ? 1200 : MAX_VISIBLE_NODES;
+  const edgeLimit = largeGraphMode ? 5000 : MAX_VISIBLE_EDGES;
+
   const [graph, setGraph] =
     useState(null);
 
@@ -564,8 +571,8 @@ function GraphExplorerContent() {
       const params = new URLSearchParams({
         depth: String(initialDepth),
         direction,
-        max_nodes: String(MAX_VISIBLE_NODES),
-        max_relationships: String(MAX_VISIBLE_EDGES),
+        max_nodes: String(nodeLimit),
+        max_relationships: String(edgeLimit),
       });
 
       try {
@@ -586,7 +593,7 @@ function GraphExplorerContent() {
         const merged = mergeGraph(
           null,
           incoming,
-          MAX_VISIBLE_NODES,
+          nodeLimit,
           MAX_VISIBLE_EDGES
         );
 
@@ -625,6 +632,8 @@ function GraphExplorerContent() {
   }, [
     rootId,
     initialDepth,
+    nodeLimit,
+    edgeLimit,
     direction,
     reloadKey,
     replaceGraph,
@@ -644,11 +653,11 @@ function GraphExplorerContent() {
     const currentGraph = graphRef.current;
 
     const remainingNodes =
-      MAX_VISIBLE_NODES -
+      nodeLimit -
       currentGraph.nodes.length;
 
     const remainingEdges =
-      MAX_VISIBLE_EDGES -
+      edgeLimit -
       currentGraph.edges.length;
 
     if (remainingNodes <= 0 ||
@@ -699,7 +708,7 @@ function GraphExplorerContent() {
       const merged = mergeGraph(
         graphRef.current,
         incoming,
-        MAX_VISIBLE_NODES,
+        nodeLimit,
         MAX_VISIBLE_EDGES
       );
 
@@ -774,8 +783,8 @@ function GraphExplorerContent() {
     Boolean(selectedEntity) &&
     !loading &&
     !expanding &&
-    displayedNodeCount < MAX_VISIBLE_NODES &&
-    displayedEdgeCount < MAX_VISIBLE_EDGES;
+    displayedNodeCount < nodeLimit &&
+    displayedEdgeCount < edgeLimit;
 
   return (
     <section className="gx-panel">
@@ -840,6 +849,16 @@ function GraphExplorerContent() {
       </div>
 
       <div className="gx-options">
+        <label>
+          Rendering mode
+          <select
+            value={largeGraphMode ? "large" : "standard"}
+            onChange={(event) => setLargeGraphMode(event.target.value === "large")}
+          >
+            <option value="standard">Standard (300 nodes)</option>
+            <option value="large">Review benchmark (1,200 nodes)</option>
+          </select>
+        </label>
         <label>
           Network
           <select
@@ -910,14 +929,14 @@ function GraphExplorerContent() {
         <span>
           Nodes:{" "}
           <strong>
-            {displayedNodeCount}/{MAX_VISIBLE_NODES}
+            {displayedNodeCount}/{nodeLimit}
           </strong>
         </span>
 
         <span>
           Edges:{" "}
           <strong>
-            {displayedEdgeCount}/{MAX_VISIBLE_EDGES}
+            {displayedEdgeCount}/{edgeLimit}
           </strong>
         </span>
 
