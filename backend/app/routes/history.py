@@ -98,6 +98,33 @@ async def save_snapshot(
             "notification failed"
         )
 
+    # Broadcast the confirmed, validated simulation so that
+    # another connected dashboard can update its predictive
+    # overlay without manually starting another model run.
+    # This is an experimental SYNTHETIC_SIMULATION event.
+    try:
+        await manager.broadcast(
+            "impact.prediction.updated",
+            {
+                "incident_id": incident_id,
+                "snapshot_id": snapshot["snapshot_id"],
+                "source_node_id": (
+                    request.prediction.get("disrupted_node")
+                ),
+                "data_origin": "SYNTHETIC_SIMULATION",
+                "prediction": request.prediction,
+                "delay": request.delay,
+                "forecast": request.forecast,
+                "ripple": request.ripple,
+                "risk": request.risk,
+            },
+        )
+    except Exception:
+        logger.exception(
+            "Snapshot saved but predictive overlay "
+            "broadcast failed"
+        )
+
     return {
         "message": "Snapshot saved",
         "snapshot": snapshot,
